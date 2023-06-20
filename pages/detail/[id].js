@@ -1,6 +1,6 @@
 import styles from '../../app/page.module.css'
 import { useRouter } from 'next/router'
-import { Card } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -12,15 +12,24 @@ export default function Detail({ dataPost }) {
   const router = useRouter();
   useEffect(() => {
     AOS.init({
-        delay: 150,
+      delay: 150,
     });
-  },[])
+  }, [])
 
   return (
     <main className={styles.main}>
-      <NavbarComp/>
-      <Card style={{minHeight: 500}}>
-        <Card.Header as="h5">Post List</Card.Header>
+      <NavbarComp />
+      <Card style={{ minHeight: 500 }}>
+        <Card.Header as="h5">
+          <Container>
+            <Row>
+              <Col lg={10}> Post List</Col>
+              <Col>
+                <Button onClick={() => router.back()} varian='success'>{'Back>>'}</Button>
+              </Col>
+            </Row>
+          </Container>
+        </Card.Header>
         <Card.Body>
           {
             dataPost.filter(item => item.id == router.query.id).map((item, index) => {
@@ -33,16 +42,16 @@ export default function Detail({ dataPost }) {
                   <div>
                     <h4>Komentar : </h4>
                     {
-                      item.komentar?
-                      item.komentar.map((kom, index) => {
-                        return(
-                          <div className='m-1 mb-2'>
-                            <b>{kom.name}</b>
-                            <p>{kom.body}</p>
-                          </div>
-                        )
-                      }):
-                      <p style={{color:'red'}}>Tidak adakomentar!</p>
+                      item.komentar ?
+                        item.komentar.map((kom, index) => {
+                          return (
+                            <div key={index} className='m-1 mb-2'>
+                              <b>{kom.name}</b>
+                              <p>{kom.body}</p>
+                            </div>
+                          )
+                        }) :
+                        <p style={{ color: 'red' }}>Tidak adakomentar!</p>
                     }
                   </div>
                 </div>
@@ -51,7 +60,7 @@ export default function Detail({ dataPost }) {
           }
         </Card.Body>
       </Card>
-      <Footer/>
+      <Footer />
     </main>
   )
 }

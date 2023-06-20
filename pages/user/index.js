@@ -16,7 +16,7 @@ export default function Home({ data }) {
 
   // initial state pagination
   const [offset, setOffset] = useState(0)
-  const [dataPagination, setData] = useState([])
+  const [dataPagination, setDataPagination] = useState([])
   const [perPage] = useState(5)
   const [pageCount, setPageCount] = useState(0)
 
@@ -38,14 +38,9 @@ export default function Home({ data }) {
         });
 
         if (result.status === 204) {
-          if(textSearch === ""){
-            // const deletData = dataPagination.filter(item => item.id != id);
-            // setDatauser(deletData);
-          }else{
-            const deletData = dataUser.filter(item => item.id != id);
-            setDatauser(deletData);
-          }
-         
+          const deletData = dataUser.filter(item => item.id != id);
+          setDatauser(deletData);
+          setDataPagination(deletData)
           alert("Success Delete Data")
         } else {
           alert('Gagal Delete Data')
@@ -57,8 +52,7 @@ export default function Home({ data }) {
   }
 
   //pagination function
-  const pagination = async () => {
-
+  const pagination = () => {
     const slices = dataUser.slice(offset * perPage, offset * perPage + perPage)
     let i = offset * perPage + 1;
     const dataHasilPagination = slices.map((item, index) => (
@@ -80,7 +74,7 @@ export default function Home({ data }) {
       </tr>
 
     ))
-    setData(dataHasilPagination)
+    setDataPagination(dataHasilPagination)
     setPageCount(Math.ceil(dataUser.length / perPage))
   }
   useEffect(() => {
@@ -122,7 +116,7 @@ export default function Home({ data }) {
               <tbody>
                 {
                   textSearch === "" ?
-                   dataPagination :
+                    dataPagination :
                     <>{
                       dataUser?.filter(data =>
                         data.name.toLowerCase().includes(textSearch.toLowerCase()) ||
@@ -154,28 +148,28 @@ export default function Home({ data }) {
                 }
               </tbody>
             </Table>
-           {
-            textSearch===""?
-            <ReactPaginate
-            previousLabel={"prev"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link"}
-            nextLabel={"next"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link"}
-            breakLabel={"..."}
-            breakClassName={"break-me page-item"}
-            breakLinkClassName={"page-link"}
-            pageCount={pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageClick}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            activeClassName={"active"} />:''
-           }
+            {
+              textSearch === "" ?
+                <ReactPaginate
+                  previousLabel={"prev"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextLabel={"next"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
+                  breakLabel={"..."}
+                  breakClassName={"break-me page-item"}
+                  breakLinkClassName={"page-link"}
+                  pageCount={pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination"}
+                  subContainerClassName={"pages pagination"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  activeClassName={"active"} /> : ''
+            }
           </div>
         </Card.Body>
       </Card>

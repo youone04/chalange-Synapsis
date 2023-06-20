@@ -8,7 +8,6 @@ import Footer from '@/app/component/footer';
 
 export default function AddUser() {
   const router = useRouter()
-
   // intial state
   const [form, setForm] = useState(({
     name: '',
@@ -19,7 +18,7 @@ export default function AddUser() {
   }))
 
   // acttion submit data
-  const actionSubmit = async () => {
+  const actionSubmitAddUser = async () => {
     try {
 
       const headers = {
@@ -35,7 +34,7 @@ export default function AddUser() {
       });
 
       const res = await result.json();
-      if(result.status === 201){
+      if (result.status === 201) {
         alert("Success Add Data");
         setForm({
           name: '',
@@ -43,7 +42,7 @@ export default function AddUser() {
           gender: '',
           status: ''
         })
-      }else{
+      } else {
         alert(`Failed, ${res[0].field} ${res[0].message}`);
       }
 
@@ -54,8 +53,8 @@ export default function AddUser() {
 
   return (
     <main className={styles.main}>
-      <NavbarComp/>
-      <Card style={{minHeight: 500}}>
+      <NavbarComp />
+      <Card style={{ minHeight: 500 }}>
         <Card.Header as="h5">Add User</Card.Header>
         <Card.Body>
           <Form>
@@ -81,7 +80,7 @@ export default function AddUser() {
             <Form.Group className="mb-3" controlId="gender">
               <Form.Label>Gender</Form.Label>
               <Form.Select
-              value={form.gender}
+                value={form.gender}
                 onChange={(e) => setForm({
                   ...form,
                   gender: e.target.value
@@ -107,11 +106,11 @@ export default function AddUser() {
               </Form.Select>
             </Form.Group>
           </Form>
-          <Button onClick={() => actionSubmit()} variant="primary m-2">Save</Button>
+          <Button onClick={() => actionSubmitAddUser()} variant="primary m-2">Save</Button>
           <Button onClick={() => router.push('/user')} variant="danger">Back</Button>
         </Card.Body>
       </Card>
-    <Footer/>
+      <Footer />
     </main>
   );
 }

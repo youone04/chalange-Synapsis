@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../app/page.module.css'
-import { Card } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
@@ -58,7 +58,16 @@ export default function PostList({ data }) {
         <main className={styles.main}>
             <NavbarComp />
             <Card>
-                <Card.Header as="h5">Post List</Card.Header>
+                <Card.Header as="h5">
+                    <Container>
+                        <Row>
+                            <Col lg={10}> Post List</Col>
+                            <Col>
+                            <Button onClick={() => router.back()} varian='success'>{'Back>>'}</Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Card.Header>
                 <Card.Body>
                     {
                         dataPagination
