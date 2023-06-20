@@ -103,7 +103,7 @@ export default function Home({ data }) {
         <Card.Body>
           <div className="table-responsive">
             <Table striped bordered hover>
-              <thead>
+              <thead className='text-center'>
                 <tr>
                   <th>No</th>
                   <th>Name</th>
@@ -113,7 +113,7 @@ export default function Home({ data }) {
                   <th>Atcion</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody  className='text-center'>
                 {
                   textSearch === "" ?
                     dataPagination :
