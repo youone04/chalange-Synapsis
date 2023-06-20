@@ -31,7 +31,7 @@ export default function Detail({ dataPost }) {
                   <p>{item.body}</p>
 
                   <div>
-                    <h3>Komnetar : </h3>
+                    <h4>Komentar : </h4>
                     {
                       item.komentar?
                       item.komentar.map((kom, index) => {

@@ -2,16 +2,24 @@ import { Card, Button, Table, Container, Row, Col, Form } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../app/page.module.css'
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import NavbarComp from '@/app/component/navbar';
 import Footer from '@/app/component/footer';
+import ReactPaginate from 'react-paginate';
 
 export default function Home({ data }) {
   const router = useRouter()
   // initial state
   const [dataUser, setDatauser] = useState(data)
   const [textSearch, setTextSearch] = useState('');
+
+  // initial state pagination
+  const [offset, setOffset] = useState(0)
+  const [dataPagination, setData] = useState([])
+  const [perPage] = useState(5)
+  const [pageCount, setPageCount] = useState(0)
+
 
   // for delete data user
   const actionDelete = async (id) => {
@@ -30,18 +38,59 @@ export default function Home({ data }) {
         });
 
         if (result.status === 204) {
-          const deletData = dataUser.filter(item => item.id != id);
-          setDatauser(deletData);
+          if(textSearch === ""){
+            // const deletData = dataPagination.filter(item => item.id != id);
+            // setDatauser(deletData);
+          }else{
+            const deletData = dataUser.filter(item => item.id != id);
+            setDatauser(deletData);
+          }
+         
           alert("Success Delete Data")
-        }else{
+        } else {
           alert('Gagal Delete Data')
         };
       }
     } catch (e) {
-      console.log(e)
       alert('Terjadi Kesalahan!')
     }
   }
+
+  //pagination function
+  const pagination = async () => {
+
+    const slices = dataUser.slice(offset * perPage, offset * perPage + perPage)
+    let i = offset * perPage + 1;
+    const dataHasilPagination = slices.map((item, index) => (
+      <tr key={index}>
+        <td>{i++}</td>
+        <td>{item.name}</td>
+        <td style={{ width: 90 }}>{item.email}</td>
+        <td>{item.gender}</td>
+        <td>{item.status}</td>
+        <td>
+          <Button
+            onClick={() => {
+              router.push({
+                pathname: `/user/update/${item.id}`
+              })
+            }}
+            className='sm m-1' variant="success">update</Button>
+          <Button onClick={() => actionDelete(item.id)} className='sm m-1' variant="danger">delete</Button></td>
+      </tr>
+
+    ))
+    setData(dataHasilPagination)
+    setPageCount(Math.ceil(dataUser.length / perPage))
+  }
+  useEffect(() => {
+    pagination()
+  }, [offset]);
+
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    setOffset(selectedPage)
+  };
 
   return (
     <main className={styles.main}>
@@ -73,28 +122,7 @@ export default function Home({ data }) {
               <tbody>
                 {
                   textSearch === "" ?
-                    dataUser?.map((item, index) => {
-                      return (
-
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item.name}</td>
-                          <td style={{ width: 90 }}>{item.email}</td>
-                          <td>{item.gender}</td>
-                          <td>{item.status}</td>
-                          <td>
-                            <Button
-                              onClick={() => {
-                                router.push({
-                                  pathname: `/user/update/${item.id}`
-                                })
-                              }}
-                              className='sm m-1' variant="success">update</Button>
-                            <Button onClick={() => actionDelete(item.id)} className='sm m-1' variant="danger">delete</Button></td>
-                        </tr>
-
-                      )
-                    }) :
+                   dataPagination :
                     <>{
                       dataUser?.filter(data =>
                         data.name.toLowerCase().includes(textSearch.toLowerCase()) ||
@@ -126,6 +154,28 @@ export default function Home({ data }) {
                 }
               </tbody>
             </Table>
+           {
+            textSearch===""?
+            <ReactPaginate
+            previousLabel={"prev"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextLabel={"next"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+            breakLabel={"..."}
+            breakClassName={"break-me page-item"}
+            breakLinkClassName={"page-link"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            activeClassName={"active"} />:''
+           }
           </div>
         </Card.Body>
       </Card>
