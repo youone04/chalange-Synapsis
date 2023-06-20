@@ -99,9 +99,17 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.container-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
+
