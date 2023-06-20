@@ -1,15 +1,19 @@
 import styles from '../../app/page.module.css'
 import { useRouter } from 'next/router'
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col, Collapse } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import NavbarComp from '@/app/component/navbar';
 import Footer from '@/app/component/footer';
 
 export default function Detail({ dataPost }) {
   const router = useRouter();
+  const [isVisible, initHs] = useState(false)
+  const invokeCollapse = () => {
+    return initHs(!isVisible)
+  }
   useEffect(() => {
     AOS.init({
       delay: 150,
@@ -19,7 +23,7 @@ export default function Detail({ dataPost }) {
   return (
     <main className={styles.main}>
       <NavbarComp />
-      <Card style={{ minHeight: 500 }}>
+      <Card style={{ minHeight: '85vh' }}>
         <Card.Header as="h5">
           <Container>
             <Row>
@@ -40,19 +44,26 @@ export default function Detail({ dataPost }) {
                   <p>{item.body}</p>
 
                   <div>
-                    <h4>Komentar : </h4>
-                    {
-                      item.komentar ?
-                        item.komentar.map((kom, index) => {
-                          return (
-                            <div key={index} className='m-1 mb-2'>
-                              <b>{kom.name}</b>
-                              <p>{kom.body}</p>
-                            </div>
-                          )
-                        }) :
-                        <p style={{ color: 'red' }}>Tidak adakomentar!</p>
-                    }
+                    <i onClick={invokeCollapse}>{item.komentar ? item.komentar.length : 0} comments </i>
+                    <Collapse in={isVisible}>
+                      <div id="collapsePanel">
+                        <div>
+                          {
+                            item.komentar ?
+                              item.komentar.map((kom, index) => {
+                                return (
+                                  <div key={index} className='m-1 mb-2'>
+                                    <b>{kom.name}</b>
+                                    <p>{kom.body}</p>
+                                  </div>
+                                )
+                              }) :
+                              <i style={{ color: 'red' }}>no comment!</i>
+                          }
+                        </div>
+                      </div>
+                    </Collapse>
+
                   </div>
                 </div>
               )

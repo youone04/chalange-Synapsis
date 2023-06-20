@@ -110,6 +110,16 @@
 .logo {
   position: relative;
 }
+.footer-mod{
+    width: 100%;
+    height: 50px;
+    padding-left: 10px;
+    line-height: 50px;
+    background: #333;
+    color: #fff;
+    position: absolute;
+    bottom: 0px;
+}
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {

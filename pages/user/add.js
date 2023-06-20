@@ -54,7 +54,7 @@ export default function AddUser() {
   return (
     <main className={styles.main}>
       <NavbarComp />
-      <Card style={{ minHeight: 500 }}>
+      <Card style={{ minHeight: '85vh' }}>
         <Card.Header as="h5">Add User</Card.Header>
         <Card.Body>
           <Form>

@@ -90,7 +90,7 @@ export default function Home({ data }) {
   return (
     <main className={styles.main}>
       <NavbarComp />
-      <Card style={{ minHeight: 500 }}>
+      <Card style={{ minHeight: '85vh' }}>
         <Card.Header as="h5">Data User</Card.Header>
         <Container>
           <Row>

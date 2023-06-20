@@ -38,6 +38,8 @@ export default function PostList({ data }) {
                 <h4>{item.title}</h4>
                 <hr />
                 <p>{item.body}</p>
+                <hr/>
+                <b className='text-white'>Klik For Detail</b>
             </div>
 
         ))
@@ -57,7 +59,7 @@ export default function PostList({ data }) {
     return (
         <main className={styles.main}>
             <NavbarComp />
-            <Card>
+            <Card style={{ minHeight: '85vh' }}>
                 <Card.Header as="h5">
                     <Container>
                         <Row>
