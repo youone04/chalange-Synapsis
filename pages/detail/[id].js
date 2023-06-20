@@ -34,7 +34,7 @@ export default function Detail({ dataPost }) {
           {
             dataPost.filter(item => item.id == router.query.id).map((item, index) => {
               return (
-                <div data-aos="fade-up" className='shadow mb-2 rounded p-3' style={index % 2 == 0 ? { cursor: 'pointer', backgroundColor: '#5A96E3' } : { cursor: 'pointer', backgroundColor: '#A0C49D' }}>
+                <div key={index} data-aos="fade-up" className='shadow mb-2 rounded p-3' style={index % 2 == 0 ? { cursor: 'pointer', backgroundColor: '#5A96E3' } : { cursor: 'pointer', backgroundColor: '#A0C49D' }}>
                   <h4>{item.title}</h4>
                   <hr />
                   <p>{item.body}</p>

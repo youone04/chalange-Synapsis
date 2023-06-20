@@ -41,6 +41,7 @@ export default function Home({ data }) {
           const deletData = dataUser.filter(item => item.id != id);
           setDatauser(deletData);
           setDataPagination(deletData)
+          pagination(id)
           alert("Success Delete Data")
         } else {
           alert('Gagal Delete Data')
@@ -52,10 +53,10 @@ export default function Home({ data }) {
   }
 
   //pagination function
-  const pagination = () => {
+  const pagination = (id) => {
     const slices = dataUser.slice(offset * perPage, offset * perPage + perPage)
     let i = offset * perPage + 1;
-    const dataHasilPagination = slices.map((item, index) => (
+    const dataHasilPagination = slices.filter(item => item.id != id).map((item, index) => (
       <tr key={index}>
         <td>{i++}</td>
         <td>{item.name}</td>
@@ -78,7 +79,7 @@ export default function Home({ data }) {
     setPageCount(Math.ceil(dataUser.length / perPage))
   }
   useEffect(() => {
-    pagination()
+    pagination(0)
   }, [offset]);
 
   const handlePageClick = (e) => {
@@ -93,10 +94,10 @@ export default function Home({ data }) {
         <Card.Header as="h5">Data User</Card.Header>
         <Container>
           <Row>
-            <Col><Link href={'/user/add'}> <Button variant="primary m-2">Add User</Button></Link></Col>
+            <Col lg={9}><Link href={'/user/add'}> <Button variant="primary m-2">Add User</Button></Link></Col>
             <Col>
               <Form.Group className="pt-2" controlId="search">
-                <Form.Control onChange={e => setTextSearch(e.target.value)} type="text" placeholder="Search by email or name..." />
+                <Form.Control style={{ width: 200 }} onChange={e => setTextSearch(e.target.value)} type="text" placeholder="Search by email or name..." />
               </Form.Group></Col>
           </Row>
         </Container>
@@ -113,7 +114,7 @@ export default function Home({ data }) {
                   <th>Atcion</th>
                 </tr>
               </thead>
-              <tbody  className='text-center'>
+              <tbody className='text-center'>
                 {
                   textSearch === "" ?
                     dataPagination :
